@@ -1,6 +1,8 @@
 k8s
 =========
 
+**This role is a work in progress.**
+
 Install and configure Kubernetes.
 
 Intially being used for homemade Raspberry pi cluster,
@@ -27,7 +29,7 @@ Including an example of how to use your role (for instance, with variables passe
 
     - hosts: servers
       roles:
-         - { role: username.rolename, x: 42 }
+         - { role: hmm01i.ansible-k8s }
 
 License
 -------
@@ -37,4 +39,4 @@ BSD
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Jacob Sohl
