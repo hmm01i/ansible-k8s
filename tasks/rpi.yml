@@ -32,7 +32,6 @@
   #- name: boot cmdline for cgroups
   #  lineinfile:
   #    line: "cgroup_enable=cpuset cgroup_enable=memory"
-  # linebefore: EOF
-  # notify:
-  #   - reboot rpi
-
+  #    insertafter: EOF
+  #  notify:
+  #    - reboot required

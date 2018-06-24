@@ -1,2 +1,3 @@
-- name: reboot rpi
-  command: reboot
+- name: reboot required
+  debug:
+    msg: Boot change made. Reboot your RPi

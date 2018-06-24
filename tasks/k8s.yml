@@ -1,7 +1,9 @@
 ---
 # Add repo lists & install kubeadm
 - name: repo gpg key
-  command: curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+  apt_key:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    state: present
 
 - name: repo
   copy:
@@ -16,11 +18,9 @@
 
     # Initialize your master node:
     #Optionally also pass --apiserver-advertise-address=192.168.0.27 with the IP of the Pi.
-    # - name: initialize master node
-    #   command: kubeadm init --token-ttl=0
-    #   args:
-    #     creates: /root/kube-master
-    #   when: k8s_master == true
+- name: initialize master node
+  command: kubeadm init --token-ttl=0
+  when: k8s_role == master
 
     #After the init is complete run the snippet given to you on the command-line:
     #
