@@ -1,2 +1,17 @@
 ---
 # tasks file for ansible-k8s
+
+# raspberry pi specific tuning
+
+# TODO: separate role
+# static ip
+- import_tasks: rpi.yml
+  tags: rpi
+
+# Install and configure docker TODO: separate role
+- import_tasks: docker.yml
+  tags: docker
+
+# actuall k8s tasks
+- import_tasks: k8s.yml
+  tags: k8s

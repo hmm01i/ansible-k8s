@@ -1,0 +1,32 @@
+---
+# Add repo lists & install kubeadm
+- name: repo gpg key
+  command: curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+
+- name: repo
+  copy:
+    dest: /etc/apt/sources.list.d/kubernetes.list
+    content: deb http://apt.kubernetes.io/ kubernetes-xenial main
+
+- name: install kubeadm
+  package:
+    name: kubeadm
+    update_cache: true
+    state: present
+
+    # Initialize your master node:
+    #Optionally also pass --apiserver-advertise-address=192.168.0.27 with the IP of the Pi.
+    # - name: initialize master node
+    #   command: kubeadm init --token-ttl=0
+    #   args:
+    #     creates: /root/kube-master
+    #   when: k8s_master == true
+
+    #After the init is complete run the snippet given to you on the command-line:
+    #
+    #  mkdir -p $HOME/.kube
+    #    sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+    #      sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+      # Now save your join-token
+

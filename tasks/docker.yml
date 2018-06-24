@@ -1,0 +1,22 @@
+---
+# eventually will be moved into separate role
+- name: docker quick script
+  copy:
+    src: files/get-docker.sh
+    dest: /tmp/get-docker.sh
+
+- name: run get-docker.sh
+  command: sh /tmp/get-docker.sh
+  args:
+    creates: /etc/apt/sources.list.d/docker.list
+
+- name: install docker-ce
+  package:
+    name: docker-ce
+    state: present
+
+- name: enable docker service
+  service:
+    name: docker
+    state: started
+    enabled: true

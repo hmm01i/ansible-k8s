@@ -1,0 +1,38 @@
+---
+# configs for rpi. eventually will be moved into separate role
+- name: dhcpcd.conf
+  template:
+    src: dhcpcd.conf.j2
+    dest: /etc/dhcpcd.conf
+    owner: root
+    group: root
+  when: rpi_manage_dhcpcd is defined
+
+- name: rpi gpu memory
+  lineinfile:
+    src: rpi/boot/config.txt
+    path: /boot/config.txt
+    line: "gpu_mem={{rpi_gpu_mem}}"
+    state: present
+  when: rpi_gpu_mem is defined
+
+- name: script to disable swap
+  copy:
+    dest: /tmp/disable-swap.sh
+    content: |
+      dphys-swapfile swapoff && \
+      dphys-swapfile uninstall && \
+      update-rc.d dphys-swapfile remove
+
+- name: disable swap w script
+  command: sh /tmp/disable-swap.sh
+  args:
+    removes: /var/swap
+
+  #- name: boot cmdline for cgroups
+  #  lineinfile:
+  #    line: "cgroup_enable=cpuset cgroup_enable=memory"
+  # linebefore: EOF
+  # notify:
+  #   - reboot rpi
+
