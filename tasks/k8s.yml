@@ -19,9 +19,16 @@
     # Initialize your master node:
     #Optionally also pass --apiserver-advertise-address=192.168.0.27 with the IP of the Pi.
 - name: initialize master node
-  command: kubeadm init --token-ttl=0
-  when: k8s_role == master
+  command: kubeadm init
+  args:
+    creates: /etc/kubernetes/controller-manager.conf
+  when: k8s_role == "master"
 
+- name: join to cluster
+  command: "kubeadm join {{kube_master_ip}}:6443 --token {{token}} --discovery-token-ca-cert-hash {{ ca-cert-hash }}"
+  args:
+    creates: /etc/kubernetes/kubelet.conf
+  when: k8s_role == "worker"
     #After the init is complete run the snippet given to you on the command-line:
     #
     #  mkdir -p $HOME/.kube
